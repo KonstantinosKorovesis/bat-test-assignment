@@ -14,7 +14,7 @@ This repository contains basic tests for `bat_functions.py` using `pytest` that 
 
 ---
 
-### 2. Tests Using Fixtures
+### 2. Tests Using Fixture
 
 - **`get_bat_vehicle(vehicle_name)`**  
   Tested using a fixture that provides known bat_vehicles. Includes tests to ensure the function raises a `ValueError` for unknown vehicle names.
