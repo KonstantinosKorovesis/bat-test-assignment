@@ -1,5 +1,5 @@
 import pytest
-from bat_functions import calculate_bat_power, signal_strength, get_bat_vehicle, fetch_joker_info
+from bat_functions import calculate_bat_power, signal_strength, get_bat_vehicle
 
 # Basic Tests
 def test_calculate_bat_power():
@@ -46,3 +46,29 @@ def test_get_bat_vehicle(bat_vehicles):
     for unknown_vehicle_name in ["Batboat", "Batcopter", "Batplane"]:
         with pytest.raises(ValueError, match=f"Unknown vehicle: {unknown_vehicle_name}"):
             get_bat_vehicle(unknown_vehicle_name)
+
+
+# Monkeypatch Test
+def test_fetch_joker_info_monkeypatch(monkeypatch):
+    def mock_fetch():
+        return {'mischief_level': 0, 'location': 'captured'}
+
+    monkeypatch.setattr("bat_functions.fetch_joker_info", mock_fetch)
+    
+    from bat_functions import fetch_joker_info
+    fetched_info = fetch_joker_info()
+
+    assert fetched_info == {'mischief_level': 0, 'location': 'captured'}
+    assert fetched_info['mischief_level'] == 0
+    assert fetched_info['location'] == 'captured'
+
+
+# pytest-mock mocker Test
+def test_fetch_joker_info_mocker(mocker):
+    mock = mocker.patch("bat_functions.fetch_joker_info", return_value={'mischief_level': 0, 'location': 'captured'})
+
+    from bat_functions import fetch_joker_info
+    fetched_info = fetch_joker_info()
+
+    assert fetched_info == {'mischief_level': 0, 'location': 'captured'}
+    mock.assert_called_once()
