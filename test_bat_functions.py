@@ -71,4 +71,6 @@ def test_fetch_joker_info_mocker(mocker):
     fetched_info = fetch_joker_info()
 
     assert fetched_info == {'mischief_level': 0, 'location': 'captured'}
+    assert fetched_info['mischief_level'] == 0
+    assert fetched_info['location'] == 'captured'
     mock.assert_called_once()
